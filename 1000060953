@@ -1,0 +1,48 @@
+import { Send, MessageCircle } from "lucide-react";
+import Logo from "./Logo";
+import { SITE } from "../config";
+
+export default function Footer() {
+  const year = new Date().getFullYear();
+
+  return (
+    <footer id="contact" className="border-t border-edge bg-band">
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row sm:px-6">
+        {/* brand */}
+        <div className="flex items-center gap-2.5">
+          <Logo size={32} />
+          <span className="text-sm font-extrabold">
+            <span className="text-gradient">Polity</span> Made Simple
+          </span>
+        </div>
+
+        {/* contact buttons — natural brand tones */}
+        <div className="flex items-center gap-2">
+          <a
+            href={SITE.telegram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-tg px-3 py-2"
+          >
+            <Send size={15} />
+            Telegram
+          </a>
+          <a
+            href={SITE.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-wa px-3 py-2"
+          >
+            <MessageCircle size={15} />
+            WhatsApp
+          </a>
+        </div>
+      </div>
+
+      {/* copyright */}
+      <div className="border-t border-edge px-4 py-4 text-center font-mono text-[11px] text-muted">
+        © {year} {SITE.brandName}. All rights reserved.
+      </div>
+    </footer>
+  );
+}

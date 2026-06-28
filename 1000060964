@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  ───────────────────────────────────────────────────────────────
+  THEME COLORS — edit here only. Values are "R G B" channels.
+  Light mode is deliberately tinted (never pure white) for a soft,
+  premium feel. Dark mode stays near-black.
+  ───────────────────────────────────────────────────────────────
+*/
+:root {
+  --bg: 233 238 242; /* soft blue-gray page background */
+  --band: 226 236 234; /* faint teal band for alternating sections */
+  --card: 249 251 251; /* cards: off-white (not pure white) */
+  --edge: 214 223 226; /* hairline borders */
+  --fg: 14 19 25; /* near-black text */
+  --muted: 88 99 112; /* secondary text */
+  --brand: 40 86 196; /* accent blue (toned down, not neon) */
+  --brand-2: 18 160 120; /* accent teal */
+
+  /* Action colors — same idea in both themes, kept calm/dark. */
+  --blue: 40 78 158; /* Paper 1 / Open  (deep blue) */
+  --green: 22 120 92; /* Paper 2 / Download (deep green) */
+  --tg: 41 122 175; /* Telegram (natural, muted) */
+  --wa: 31 158 86; /* WhatsApp green */
+}
+
+.dark {
+  --bg: 11 15 19; /* #0B0F13 near-black */
+  --band: 14 19 25; /* subtle elevated band */
+  --card: 17 22 28; /* card surface */
+  --edge: 30 39 49; /* hairline borders */
+  --fg: 234 238 243; /* near-white text */
+  --muted: 140 150 165; /* secondary text */
+  --brand: 92 139 235; /* accent blue */
+  --brand-2: 52 211 158; /* accent teal */
+
+  --blue: 60 104 196; /* Paper 1 / Open */
+  --green: 34 150 110; /* Paper 2 / Download */
+  --tg: 56 145 200; /* Telegram */
+  --wa: 37 175 96; /* WhatsApp */
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-bg text-fg antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand ring-offset-2;
+    --tw-ring-offset-color: rgb(var(--bg));
+  }
+}
+
+@layer components {
+  /* Blue→teal gradient signature (logo, accents). */
+  .gradient-brand {
+    background-image: linear-gradient(135deg, rgb(var(--brand)), rgb(var(--brand-2)));
+  }
+  .text-gradient {
+    background-image: linear-gradient(135deg, rgb(var(--brand)), rgb(var(--brand-2)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* Soft top-to-bottom wash for the hero (very subtle in dark mode). */
+  .section-hero {
+    background-image: linear-gradient(180deg, rgb(var(--band)), rgb(var(--bg)));
+  }
+  /* Uppercase mono micro-label above section titles. */
+  .eyebrow {
+    @apply font-mono text-xs font-medium uppercase tracking-[0.18em] text-muted;
+  }
+
+  /* Buttons — every button on the site is styled from here.
+     Each is filled and equally weighted (no single "loud" button). */
+  .btn-blue,
+  .btn-green,
+  .btn-tg,
+  .btn-wa {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white transition-transform active:scale-[0.97];
+  }
+  .btn-blue:hover,
+  .btn-green:hover,
+  .btn-tg:hover,
+  .btn-wa:hover {
+    filter: brightness(1.08);
+  }
+  .btn-blue {
+    background-color: rgb(var(--blue));
+  }
+  .btn-green {
+    background-color: rgb(var(--green));
+  }
+  .btn-tg {
+    background-color: rgb(var(--tg));
+  }
+  .btn-wa {
+    background-color: rgb(var(--wa));
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-edge bg-card px-4 py-2.5 text-sm font-semibold text-fg transition-transform hover:bg-fg/5 active:scale-[0.97];
+  }
+
+  /* Cards. */
+  .card {
+    @apply rounded-xl border border-edge bg-card;
+  }
+  .card-interactive {
+    @apply rounded-xl border border-edge bg-card transition-all hover:-translate-y-1 hover:border-brand/40 active:scale-[0.99];
+  }
+
+  /* Active filter pill. */
+  .pill-active {
+    @apply border-transparent text-white;
+    background-color: rgb(var(--blue));
+  }
+}
+
+/* ── Fade-in on scroll (used by <Reveal>) ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Toast popup entrance */
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-toast {
+  animation: toastIn 0.25s ease-out both;
+}

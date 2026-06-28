@@ -1,0 +1,74 @@
+import { Mail, BadgeCheck } from "lucide-react";
+import { SITE } from "../config";
+import Reveal from "./Reveal";
+
+const CREDENTIALS = [
+  "UGC-NET JRF · Political Science",
+  "GATE · Economics",
+  "UGC-NET · Geography",
+];
+
+/**
+ * About Us — bio, credentials, and a compact feedback line (merged in).
+ *
+ * To use a real profile photo: add an image to src/assets/ (e.g.
+ * profile.jpg), import it, and swap the gradient circle for an <img>.
+ */
+export default function About() {
+  return (
+    <section id="about" className="border-t border-edge bg-bg">
+      <Reveal>
+        <div className="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6">
+          <p className="eyebrow">About Us</p>
+
+          {/* avatar with a soft glow */}
+          <div className="relative mx-auto mt-4 h-24 w-24">
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 rounded-full bg-brand/25 blur-xl"
+            />
+            <div className="relative flex h-24 w-24 items-center justify-center rounded-full gradient-brand text-2xl font-extrabold text-white ring-4 ring-bg">
+              PS
+            </div>
+          </div>
+
+          {/* bio */}
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-muted sm:text-base">
+            The author has qualified UGC-NET/JRF in Political Science (99.82
+            percentile, June 2025), along with several other exams including
+            GATE in Economics and UGC-NET in Geography. With years of mentoring
+            and first-hand knowledge of the exam journey, the mission is to give
+            aspirants to-the-point, high-quality notes, mock tests, detailed PYQ
+            analysis, and concise study material — all organized in one place to
+            make preparation simpler, smarter, and more effective.
+          </p>
+
+          {/* credentials */}
+          <div className="mt-5 flex flex-wrap justify-center gap-2">
+            {CREDENTIALS.map((c) => (
+              <span
+                key={c}
+                className="inline-flex items-center gap-1.5 rounded-full border border-edge bg-card px-3 py-1 text-xs font-medium text-muted"
+              >
+                <BadgeCheck size={13} className="text-brand" />
+                {c}
+              </span>
+            ))}
+          </div>
+
+          {/* compact feedback (merged in) */}
+          <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-2xl border border-edge bg-card px-5 py-3 text-sm">
+            <Mail size={15} className="text-brand" />
+            <span className="text-muted">Questions or feedback?</span>
+            <a
+              href={`mailto:${SITE.email}`}
+              className="break-all font-semibold text-fg transition-colors hover:text-brand"
+            >
+              {SITE.email}
+            </a>
+          </div>
+        </div>
+      </Reveal>
+    </section>
+  );
+}

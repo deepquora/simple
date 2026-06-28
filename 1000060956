@@ -1,0 +1,119 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Send, Sun, Moon, MoreVertical, X } from "lucide-react";
+import Logo from "./Logo";
+import { SITE, NAV_LINKS } from "../config";
+
+type HeaderProps = {
+  theme: "dark" | "light";
+  toggleTheme: () => void;
+};
+
+// Renders a nav link: a real page (<Link>) or a homepage section (<a #>).
+function NavItem({
+  href,
+  label,
+  onClick,
+}: {
+  href: string;
+  label: string;
+  onClick?: () => void;
+}) {
+  const cls =
+    "rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-fg/5 hover:text-fg";
+  if (href.includes("#")) {
+    return (
+      <a href={href} onClick={onClick} className={cls}>
+        {label}
+      </a>
+    );
+  }
+  return (
+    <Link to={href} onClick={onClick} className={cls}>
+      {label}
+    </Link>
+  );
+}
+
+/**
+ * Sticky top header.
+ * - Desktop: full navigation is always visible.
+ * - Mobile: three-dot menu.
+ * - Telegram button stays visible on every screen size.
+ */
+export default function Header({ theme, toggleTheme }: HeaderProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-edge bg-band/80 backdrop-blur-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+        {/* ── Left: logo + brand name ── */}
+        <Link to="/" className="flex items-center gap-3">
+          <Logo size={44} />
+          <span className="leading-tight">
+            <span className="block text-base font-extrabold tracking-tight sm:text-lg">
+              <span className="text-gradient">Polity</span> Made Simple
+            </span>
+            <span className="block text-[11px] font-medium text-muted">
+              {SITE.tagline}
+            </span>
+          </span>
+        </Link>
+
+        {/* ── Right: nav + actions ── */}
+        <div className="flex items-center gap-2">
+          <nav className="hidden items-center gap-1 lg:flex">
+            {NAV_LINKS.map((link) => (
+              <NavItem key={link.label} href={link.href} label={link.label} />
+            ))}
+          </nav>
+
+          {/* Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            className="flex h-9 w-9 items-center justify-center rounded-md border border-edge text-muted transition-colors hover:bg-fg/5 hover:text-fg active:scale-95"
+          >
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+
+          {/* Telegram — natural Telegram tone, always visible */}
+          <a
+            href={SITE.telegram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-tg px-2.5 py-2 sm:px-3"
+          >
+            <Send size={16} />
+            <span className="hidden sm:inline">Join Telegram</span>
+          </a>
+
+          {/* Mobile three-dot menu */}
+          <button
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-label="Open menu"
+            className="flex h-9 w-9 items-center justify-center rounded-md border border-edge text-fg transition-colors hover:bg-fg/5 active:scale-95 lg:hidden"
+          >
+            {menuOpen ? <X size={18} /> : <MoreVertical size={18} />}
+          </button>
+        </div>
+      </div>
+
+      {/* ── Mobile dropdown ── */}
+      {menuOpen && (
+        <nav className="border-t border-edge bg-band px-4 py-3 lg:hidden">
+          <div className="flex flex-col gap-1">
+            {NAV_LINKS.map((link) => (
+              <NavItem
+                key={link.label}
+                href={link.href}
+                label={link.label}
+                onClick={() => setMenuOpen(false)}
+              />
+            ))}
+          </div>
+        </nav>
+      )}
+    </header>
+  );
+}

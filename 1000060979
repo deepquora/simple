@@ -1,0 +1,61 @@
+import { useState, useEffect } from "react";
+import Hero from "../components/Hero";
+import QuickAccess from "../components/QuickAccess";
+import MaterialsBrowser from "../components/MaterialsBrowser";
+import About from "../components/About";
+import Contact from "../components/Contact";
+import Toast from "../components/Toast";
+
+/**
+ * Homepage = the central navigation page.
+ * hero → quick access → study material → about → contact.
+ *
+ * Filter state lives here so the Quick Access tiles and the materials
+ * browser stay in sync (clicking a tile filters the list below).
+ */
+export default function Home() {
+  const [types, setTypes] = useState<string[]>([]);
+  const [papers, setPapers] = useState<string[]>([]);
+  const [langs, setLangs] = useState<string[]>([]);
+  const [toast, setToast] = useState<string | null>(null);
+
+  // Auto-dismiss the toast.
+  useEffect(() => {
+    if (!toast) return;
+    const id = setTimeout(() => setToast(null), 2600);
+    return () => clearTimeout(id);
+  }, [toast]);
+
+  // A Quick Access tile was tapped → filter + scroll to the materials.
+  const handlePick = (type: string) => {
+    setTypes([type]);
+    setPapers([]);
+    setLangs([]);
+    setTimeout(
+      () =>
+        document
+          .getElementById("materials")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" }),
+      0
+    );
+  };
+
+  return (
+    <>
+      <Hero />
+      <QuickAccess onPick={handlePick} onComingSoon={setToast} />
+      <MaterialsBrowser
+        types={types}
+        papers={papers}
+        langs={langs}
+        setTypes={setTypes}
+        setPapers={setPapers}
+        setLangs={setLangs}
+        onComingSoon={setToast}
+      />
+      <About />
+      <Contact />
+      {toast && <Toast message={toast} onClose={() => setToast(null)} />}
+    </>
+  );
+}

@@ -1,0 +1,108 @@
+import { Link } from "react-router-dom";
+import { FileText, ChevronRight, CalendarDays, Languages } from "lucide-react";
+import { SITE } from "../config";
+
+/**
+ * Hero — fills the first screen on mobile (so Quick Access sits below
+ * the fold) and keeps generous breathing room. The exam tag is the
+ * focal element; the two Paper cards are intentionally subtle.
+ */
+export default function Hero() {
+  return (
+    <section
+      id="home"
+      className="section-hero relative overflow-hidden border-b border-edge"
+    >
+      {/* soft glow */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-10 h-56 w-[38rem] max-w-full -translate-x-1/2 rounded-full bg-brand/15 blur-3xl"
+      />
+
+      <div className="relative mx-auto flex min-h-[calc(100svh_-_68px)] max-w-3xl flex-col items-center justify-center px-4 py-16 text-center sm:px-6">
+        {/* ── Title group ── */}
+        <div>
+          <span className="eyebrow">{SITE.initiative}</span>
+          <h1 className="mt-4 text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+            Political Science <span className="text-gradient">Made Simple</span>
+          </h1>
+          <p className="mx-auto mt-4 max-w-md text-sm text-muted sm:text-base">
+            Notes, PYQs, mock tests &amp; current affairs — all in one place.
+          </p>
+        </div>
+
+        {/* ── Exam + papers group (clear gap from the title) ── */}
+        <div className="mt-14 w-full sm:mt-16">
+          {/* highlighted exam tag (the focal point) */}
+          <div className="flex justify-center">
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-brand/30 bg-brand/10 px-5 py-2.5">
+              <CalendarDays size={18} className="text-brand" />
+              <span className="text-sm font-extrabold text-gradient sm:text-base">
+                {SITE.examLabel}
+              </span>
+            </div>
+          </div>
+
+          {/* Paper 1 / Paper 2 — side by side, subtle, navigable */}
+          <div className="mx-auto mt-4 grid max-w-md grid-cols-2 gap-3">
+            <Link
+              to="/paper-1"
+              className="card-interactive group flex items-center gap-2.5 p-3 text-left"
+            >
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand">
+                <FileText size={16} />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-bold">Paper 1</span>
+                <span className="block text-xs text-muted">General</span>
+              </span>
+              <ChevronRight
+                size={16}
+                className="shrink-0 text-muted transition-transform group-hover:translate-x-0.5"
+              />
+            </Link>
+
+            <Link
+              to="/paper-2"
+              className="card-interactive group flex items-center gap-2.5 p-3 text-left"
+            >
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-2/10 text-brand-2">
+                <FileText size={16} />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-bold">Paper 2</span>
+                <span className="block text-xs text-muted">Political Science</span>
+              </span>
+              <ChevronRight
+                size={16}
+                className="shrink-0 text-muted transition-transform group-hover:translate-x-0.5"
+              />
+            </Link>
+          </div>
+
+          {/* languages */}
+          <p className="mt-5 inline-flex items-center justify-center gap-1.5 text-xs text-muted">
+            <Languages size={14} />
+            Available in English + हिंदी
+          </p>
+        </div>
+
+        {/* ── Upcoming exams — subtle, lower ── */}
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-xs text-muted">
+          <span className="inline-flex items-center gap-1.5">
+            CUET-PG
+            <span className="rounded bg-fg/5 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider">
+              Upcoming
+            </span>
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            Rajasthan SET
+            <span className="rounded bg-fg/5 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider">
+              Upcoming
+            </span>
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -1,0 +1,60 @@
+import { Send, MessageCircle, Users } from "lucide-react";
+import { COMMUNITY } from "../config";
+import Reveal from "./Reveal";
+
+// Brand colours via CSS vars (adapt to light/dark automatically).
+const VAR = { telegram: "--tg", whatsapp: "--wa" } as const;
+const ICON = { telegram: Send, whatsapp: MessageCircle } as const;
+
+/**
+ * Contact Us — Telegram channel, WhatsApp channel, and discussion group
+ * shown side by side. Edit links in src/config.ts (COMMUNITY).
+ */
+export default function Contact() {
+  return (
+    <section id="contact" className="border-t border-edge bg-band">
+      <Reveal>
+        <div className="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6">
+          <p className="eyebrow">Contact Us</p>
+          <h2 className="mt-1 text-2xl font-extrabold tracking-tight">
+            Join our community
+          </h2>
+          <p className="mx-auto mt-1 max-w-md text-sm text-muted">
+            For regular updates and announcements, join us on your favourite
+            platform.
+          </p>
+
+          <div className="mt-7 grid grid-cols-3 gap-3">
+            {COMMUNITY.map((c, i) => {
+              const Icon = i === 2 ? Users : ICON[c.brand];
+              const v = VAR[c.brand];
+              return (
+                <a
+                  key={c.label}
+                  href={c.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="card-interactive group flex flex-col items-center gap-2 p-4 text-center"
+                >
+                  <span
+                    className="flex h-11 w-11 items-center justify-center rounded-xl transition-transform group-hover:scale-105"
+                    style={{
+                      backgroundColor: `rgb(var(${v}) / 0.12)`,
+                      color: `rgb(var(${v}))`,
+                    }}
+                  >
+                    <Icon size={20} />
+                  </span>
+                  <span className="text-xs font-bold sm:text-sm">{c.label}</span>
+                  <span className="text-[10px] text-muted sm:text-[11px]">
+                    {c.desc}
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
